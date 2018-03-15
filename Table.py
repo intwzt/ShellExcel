@@ -18,7 +18,7 @@ class Table:
 
     def assign_header(self, header):
         self.header = header
-        self.table_body = [self.table_body[0] + header.x, self.table_body[1] + header.y]
+        self.table_body = [self.table_body[0], self.table_body[1] + header.y]
 
     def _check_cube_style(self, x, y):
         for item in self.header.merge:
@@ -34,15 +34,15 @@ class Table:
                 checked_style = self._check_cube_style(i, j)
                 current_cube = Cube(bg_color[4], value=current_value) if checked_style is None else Cube(
                     checked_style.bg_color, value=current_value)
-                self._write_cube_to_book(i, j, current_cube)
+                self._write_cube_to_book(i+1, j+1, current_cube)
 
         # merge cell
         if self.header.merge is not None:
             for m in self.header.merge:
-                self.ws.merge_cells(start_row=m['coordinate'][0],
-                                    start_column=m['coordinate'][1],
-                                    end_row=m['coordinate'][2],
-                                    end_column=m['coordinate'][3])
+                self.ws.merge_cells(start_row=m['coordinate'][0] + self.origin[0],
+                                    start_column=m['coordinate'][1] + self.origin[1],
+                                    end_row=m['coordinate'][2] + self.origin[0],
+                                    end_column=m['coordinate'][3] + self.origin[1])
 
     def assign_person(self, owner, follower=None):
         self.owner = owner
@@ -67,6 +67,9 @@ class Table:
         self.wb.save('result.xlsx')
 
     def render(self):
+        # render header
+        self._render_table_header()
+        # render body
         index_x = self.table_body[0]
         index_y = self.table_body[1]
         counter = 0

@@ -11,7 +11,6 @@ common1_matrix = [
     ['PCMO', 'HX7'],
     ['PCMO', 'HX6'],
     ['PCMO', 'HX5'],
-    ['PCMO', 'HX4'],
     ['PCMO', 'HX3'],
     ['PCMO', 'HX2'],
     ['PCMO', 'Other'],
@@ -24,13 +23,13 @@ common1_matrix = [
     ['CRTO', 'Gadus'],
     ['CRTO', 'Spirax'],
     ['CRTO', 'Other'],
-    ['Sum Total']
+    ['Sum Total', None]
 ]
 
 common1_need_merge = [
-    {'coordinate': [2, 1, 10, 1], 'style': Style(bg_color[4])},
-    {'coordinate': [11, 1, 19, 1], 'style': Style(bg_color[4])},
-    {'coordinate': [20, 1, 20, 2], 'style': Style(bg_color[4])}
+    {'coordinate': [2, 0, 10, 0], 'style': Style(bg_color[4])},
+    {'coordinate': [11, 0, 19, 0], 'style': Style(bg_color[4])},
+    {'coordinate': [20, 0, 20, 1], 'style': Style(bg_color[4])}
 ]
 
 common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge}
