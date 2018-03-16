@@ -1,8 +1,9 @@
 # coding=utf-8
 from openpyxl import Workbook
 
-from Common import color_pattern, bg_color, target_mapper, ref_mapper
+from Common import color_pattern, bg_color, target_mapper, ref_mapper, formula_type
 from Cube import Cube
+from tools import coordinate_transfer
 
 
 class Table:
@@ -34,7 +35,7 @@ class Table:
                 checked_style = self._check_cube_style(i, j)
                 current_cube = Cube(bg_color[4], value=current_value) if checked_style is None else Cube(
                     checked_style.bg_color, value=current_value)
-                self._write_cube_to_book(i+1, j+1, current_cube)
+                self._write_cube_to_book(i + 1, j + 1, current_cube)
 
         # merge cell
         if self.header.merge is not None:
@@ -56,9 +57,14 @@ class Table:
     def _set_style(self, c, style):
         self._set_background(c, style.bg_color)
 
+    def _set_formula(self, x, y, formula):
+        self.ws[coordinate_transfer(x, y)] = formula
+
     def _write_cube_to_book(self, x, y, cube):
         c = self.ws.cell(x, y, cube.value)
         self._set_style(c, cube.style)
+        if cube.formula is not None:
+            self._set_formula(x, y, cube.formula)
 
     def print_info(self):
         self.owner.print_info()
@@ -88,56 +94,91 @@ class Table:
         if len(self.follower) > 0:
             # for all follower
             for f in range(len(self.follower)):
+
+                # get some column parameter
+                person_target_column_number = len(self.follower[f].target)
+                person_ref_column_number = len(self.follower[f].ref)
+                person_column_number = person_target_column_number + person_ref_column_number
+
                 inner_counter = 0
                 # write person name
-                for i in range(6):
-                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * 6,
+                for i in range(person_column_number):
+                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
                                              Cube(bg_color[4], self.follower[f].name))
                 # merge name cells
                 self.ws.merge_cells(start_row=index_x + counter + inner_counter,
-                                    start_column=index_y + f * 6,
+                                    start_column=index_y + f * person_column_number,
                                     end_row=index_x + counter + inner_counter,
-                                    end_column=index_y + f * 6 + 6 - 1)
+                                    end_column=index_y + f * person_column_number + person_column_number - 1)
 
                 inner_counter += 1
                 # write column name
-                for i in range(3):
-                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * 6,
+                for i in range(person_target_column_number):
+                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
                                              Cube(bg_color[4], ref_mapper[i]))
-                for i in range(3, 6):
-                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * 6,
-                                             Cube(bg_color[4], target_mapper[i - 3]))
+                for i in range(person_target_column_number, person_column_number):
+                    self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
+                                             Cube(bg_color[4], target_mapper[i - person_target_column_number]))
 
                 inner_counter += 1
                 # write column data
                 for i in range(num_of_column):
-                    for j in range(3):
-                        self._write_cube_to_book(index_x + counter + i + inner_counter, index_y + j + f * 6,
+                    for j in range(person_ref_column_number):
+                        # cast formula type to real formula if the cube as formula
+                        if formula_type[1] == self.follower[f].ref[ref_mapper[j]].container[i].formula:
+                            start_cube = coordinate_transfer(index_x + counter + inner_counter,
+                                                             index_y + j + f * person_column_number)
+                            end_cube = coordinate_transfer(index_x + counter + i + inner_counter - 1,
+                                                           index_y + j + f * person_column_number)
+                            formula = "=SUM(" + start_cube + ":" + end_cube + ")"
+                            self.follower[f].ref[ref_mapper[j]].container[i].set_formula(formula)
+                        self._write_cube_to_book(index_x + counter + i + inner_counter,
+                                                 index_y + j + f * person_column_number,
                                                  self.follower[f].ref[ref_mapper[j]].container[i])
                 for i in range(num_of_column):
-                    for j in range(3):
-                        self._write_cube_to_book(index_x + counter + i + inner_counter, index_y + j + 3 + f * 6,
+                    for j in range(person_target_column_number):
+                        # cast formula type to real formula if the cube as formula
+                        if formula_type[1] == self.follower[f].target[target_mapper[j]].container[i].formula:
+                            start_cube = coordinate_transfer(index_x + counter + inner_counter,
+                                                             index_y + j + person_ref_column_number + f * person_column_number)
+                            end_cube = coordinate_transfer(index_x + counter + i + inner_counter - 1,
+                                                           index_y + j + person_ref_column_number + f * person_column_number)
+                            formula = "=SUM(" + start_cube + ":" + end_cube + ")"
+                            self.follower[f].target[target_mapper[j]].container[i].set_formula(formula)
+                        self._write_cube_to_book(index_x + counter + i + inner_counter, index_y + j +
+                                                 person_ref_column_number + f * person_column_number,
                                                  self.follower[f].target[target_mapper[j]].container[i])
             counter += 1
 
     def _render_owner(self, counter, index_x, index_y, num_of_column):
         # write owner if exist
         if self.owner:
+            # get some column parameter
+            person_target_column_number = len(self.owner.target)
+            person_column_number = person_target_column_number
             # write person name
-            for i in range(3):
+            for i in range(person_column_number):
                 self._write_cube_to_book(index_x + counter, index_y + i, Cube(bg_color[4], self.owner.name))
             # merge name cells
             self.ws.merge_cells(start_row=index_x + counter,
                                 start_column=index_y,
                                 end_row=index_x + counter,
-                                end_column=index_y + 3 - 1)
+                                end_column=index_y + person_column_number - 1)
             counter += 1
             # write column name
-            for i in range(3):
+            for i in range(person_column_number):
                 self._write_cube_to_book(index_x + counter, index_y + i, Cube(bg_color[4], target_mapper[i]))
             counter += 1
             # write column data
             for i in range(num_of_column):
-                for j in range(3):
+                for j in range(person_target_column_number):
+                    # cast formula type to real formula if the cube as formula
+                    if formula_type[1] == self.owner.target[target_mapper[j]].container[i].formula:
+                        start_cube = coordinate_transfer(index_x + counter, index_y + j)
+                        end_cube = coordinate_transfer(index_x + counter + i - 1, index_y + j)
+                        formula = "=SUM(" + start_cube + ":" + end_cube + ")"
+                        self.owner.target[target_mapper[j]].container[i].set_formula(formula)
                     self._write_cube_to_book(index_x + counter + i, index_y + j,
                                              self.owner.target[target_mapper[j]].container[i])
+
+

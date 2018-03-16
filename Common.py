@@ -27,3 +27,7 @@ side_pattern = {side_style[1]: Side(border_style="thin", color="000000")}
 alignment = {1: 'left', 2: 'center', 3: 'right'}
 alignment_pattern = {'center': Alignment(horizontal="center", vertical="center")}
 
+column_last_row = {1: 'null', 2: 'hold', 3: 'cal', 4: 'negative'}
+
+formula_type = {1: 'column_total'}
+
