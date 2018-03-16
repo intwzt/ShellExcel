@@ -1,25 +1,38 @@
 # coding=utf-8
 from openpyxl import Workbook
 
-from Common import color_pattern, bg_color, target_mapper, ref_mapper, formula_type
+from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern
+from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
-from tools import coordinate_transfer
+from Tools import coordinate_transfer, style_range
+from Style import Style
 
 
 class Table:
     def __init__(self, ox, oy):
+        # add title row
+        ox += 1
         self.owner = None
         self.follower = []
         self.header = None
         self.origin = [ox, oy]
         self.table_body = [ox, oy]
+        self.title = None
 
         self.wb = Workbook()
         self.ws = self.wb.active
+        self.end = [ox, oy]
 
     def assign_header(self, header):
         self.header = header
         self.table_body = [self.table_body[0], self.table_body[1] + header.y]
+
+    def assign_title(self, title):
+        self.title = title
+
+    def _render_table_title(self):
+        style = Style(bg_color[4], border=None, font=font_style[3], al=alignment[1])
+        self._write_cube_to_book(self.origin[0] - 1, self.origin[1], Cube(bg_color[4], value=self.title, style=style))
 
     def _check_cube_style(self, x, y):
         for item in self.header.merge:
@@ -31,19 +44,29 @@ class Table:
         # render cell with style
         for i in range(self.header.x):
             for j in range(self.header.y):
+                x = i + self.origin[0] - 1
+                # y should add title
+                y = j + self.origin[1] - 1
                 current_value = self.header.matrix[i][j]
                 checked_style = self._check_cube_style(i, j)
                 current_cube = Cube(bg_color[4], value=current_value) if checked_style is None else Cube(
-                    checked_style.bg_color, value=current_value)
-                self._write_cube_to_book(i + 1, j + 1, current_cube)
+                    checked_style.fill, value=current_value)
+                self._write_cube_to_book(x + 1, y + 1, current_cube)
 
         # merge cell
         if self.header.merge is not None:
             for m in self.header.merge:
-                self.ws.merge_cells(start_row=m['coordinate'][0] + self.origin[0],
-                                    start_column=m['coordinate'][1] + self.origin[1],
-                                    end_row=m['coordinate'][2] + self.origin[0],
-                                    end_column=m['coordinate'][3] + self.origin[1])
+                start_row = m['coordinate'][0] + self.origin[0]
+                start_column = m['coordinate'][1] + self.origin[1]
+                end_row = m['coordinate'][2] + self.origin[0]
+                end_column = m['coordinate'][3] + self.origin[1]
+                self.ws.merge_cells(start_row=start_row,
+                                    start_column=start_column,
+                                    end_row=end_row,
+                                    end_column=end_column)
+                self._merge_body_cell(end_column, end_row, start_column, start_row,
+                                      border_pattern[side_style[1]], fill_pattern[bg_color[4]],
+                                      font_pattern[font_style[2]], alignment_pattern[alignment[2]])
 
     def assign_person(self, owner, follower=None):
         self.owner = owner
@@ -51,20 +74,26 @@ class Table:
             for f in follower:
                 self.follower.append(f)
 
-    def _set_background(self, c, color):
-        c.fill = color_pattern[color]
-
-    def _set_style(self, c, style):
-        self._set_background(c, style.bg_color)
-
     def _set_formula(self, x, y, formula):
         self.ws[coordinate_transfer(x, y)] = formula
 
+    def _style_factory(self, c, cube):
+        border = None if cube.style.border is None else border_pattern[cube.style.border]
+        fill = None if cube.style.fill is None else fill_pattern[cube.style.fill]
+        font = None if cube.style.font is None else font_pattern[cube.style.font]
+        al = None if cube.style.al is None else alignment_pattern[cube.style.al]
+        c.border = border
+        c.fill = fill
+        c.font = font
+        c.alignment = al
+
     def _write_cube_to_book(self, x, y, cube):
         c = self.ws.cell(x, y, cube.value)
-        self._set_style(c, cube.style)
         if cube.formula is not None:
             self._set_formula(x, y, cube.formula)
+        # write style
+        # get cell range
+        self._style_factory(c, cube)
 
     def print_info(self):
         self.owner.print_info()
@@ -73,6 +102,7 @@ class Table:
         self.wb.save('result.xlsx')
 
     def render(self):
+        self._render_table_title()
         # render header
         self._render_table_header()
         # render body
@@ -105,11 +135,16 @@ class Table:
                 for i in range(person_column_number):
                     self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
                                              Cube(bg_color[4], self.follower[f].name))
+
                 # merge name cells
-                self.ws.merge_cells(start_row=index_x + counter + inner_counter,
-                                    start_column=index_y + f * person_column_number,
-                                    end_row=index_x + counter + inner_counter,
-                                    end_column=index_y + f * person_column_number + person_column_number - 1)
+                start_row = index_x + counter + inner_counter
+                start_column = index_y + f * person_column_number
+                end_row = index_x + counter + inner_counter
+                end_column = index_y + f * person_column_number + person_column_number - 1
+
+                self._merge_body_cell(end_column, end_row, start_column, start_row,
+                                      border_pattern[side_style[1]], fill_pattern[bg_color[4]],
+                                      font_pattern[font_style[2]], alignment_pattern[alignment[2]])
 
                 inner_counter += 1
                 # write column name
@@ -159,11 +194,16 @@ class Table:
             # write person name
             for i in range(person_column_number):
                 self._write_cube_to_book(index_x + counter, index_y + i, Cube(bg_color[4], self.owner.name))
+
             # merge name cells
-            self.ws.merge_cells(start_row=index_x + counter,
-                                start_column=index_y,
-                                end_row=index_x + counter,
-                                end_column=index_y + person_column_number - 1)
+            start_row = index_x + counter
+            start_column = index_y
+            end_row = index_x + counter
+            end_column = index_y + person_column_number - 1
+            self._merge_body_cell(end_column, end_row, start_column, start_row,
+                                  border_pattern[side_style[1]], fill_pattern[bg_color[4]],
+                                  font_pattern[font_style[2]], alignment_pattern[alignment[2]])
+
             counter += 1
             # write column name
             for i in range(person_column_number):
@@ -181,4 +221,12 @@ class Table:
                     self._write_cube_to_book(index_x + counter + i, index_y + j,
                                              self.owner.target[target_mapper[j]].container[i])
 
-
+    def _merge_body_cell(self, end_column, end_row, start_column, start_row,
+                         border, fill, font, al):
+        self.ws.merge_cells(start_row=start_row,
+                            start_column=start_column,
+                            end_row=end_row,
+                            end_column=end_column)
+        # set merge cells style
+        coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row, end_column)
+        style_range(self.ws, coordinate, border, fill, font, al)
