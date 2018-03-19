@@ -1,7 +1,8 @@
 # coding=utf-8
 from Style import Style
-from Common import bg_color, side_style
+from Common import bg_color, side_style, font_style, alignment
 
+# if you need add style for single gird, add it as need_merge parameter
 common1_matrix = [
     [None, None],
     [None, 'Product'],
@@ -27,9 +28,29 @@ common1_matrix = [
 ]
 
 common1_need_merge = [
-    {'coordinate': [2, 0, 10, 0], 'style': Style(bg_color[4])},
-    {'coordinate': [11, 0, 19, 0], 'style': Style(bg_color[4])},
-    {'coordinate': [20, 0, 20, 1], 'style': Style(bg_color[4], border=side_style[3])}
+    {'coordinate': [2, 0, 10, 0], 'style': Style(bg_color[4], al=alignment[5])},
+    {'coordinate': [11, 0, 19, 0], 'style': Style(bg_color[4], al=alignment[5])},
+    {'coordinate': [20, 0, 20, 1], 'style': Style(bg_color[4], border=side_style[3], font=font_style[2], al=alignment[5])},
+
+    {'coordinate': [1, 1, 1, 1], 'style': Style(bg_color[4], font=font_style[2], al=alignment[1])},
+    {'coordinate': [2, 1, 2, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [3, 1, 3, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [4, 1, 4, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [5, 1, 5, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [6, 1, 6, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [7, 1, 7, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [8, 1, 8, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [9, 1, 9, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [10, 1, 10, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [11, 1, 11, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [12, 1, 12, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [13, 1, 13, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [14, 1, 14, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [15, 1, 15, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [16, 1, 16, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [17, 1, 17, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [18, 1, 18, 1], 'style': Style(bg_color[4], al=alignment[1])},
+    {'coordinate': [19, 1, 19, 1], 'style': Style(bg_color[4], al=alignment[1])}
 ]
 
 common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge}

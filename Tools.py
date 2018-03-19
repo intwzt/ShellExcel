@@ -2,6 +2,14 @@
 from openpyxl.styles import Border
 
 
+def restructure_border(border, top=None, left=None, right=None, bottom=None):
+    top = border.top if top is None else top.top
+    left = border.left if left is None else left.left
+    right = border.right if right is None else right.right
+    bottom = border.bottom if bottom is None else bottom.bottom
+    return Border(top=top, right=right, bottom=bottom, left=left)
+
+
 def style_range(ws, cell_range, border=Border(), fill=None, font=None, alignment=None):
     top = Border(top=border.top)
     left = Border(left=border.left)
@@ -18,45 +26,18 @@ def style_range(ws, cell_range, border=Border(), fill=None, font=None, alignment
         first_cell.font = font
 
     for cell in rows[0]:
-        cell.border = cell.border + top
+        cell.border = restructure_border(cell.border, top=top)
     for cell in rows[-1]:
-        cell.border = cell.border + bottom
+        cell.border = restructure_border(cell.border, bottom=bottom)
 
     for row in rows:
         l = row[0]
         r = row[-1]
-        l.border = l.border + left
-        r.border = r.border + right
+        l.border = restructure_border(l.border, left=left)
+        r.border = restructure_border(r.border, right=right)
         if fill:
             for c in row:
                 c.fill = fill
-
-
-def set_border(ws, cell_range, side):
-    rows = ws[cell_range]
-    rows = list(rows)  # convert iterator to list for simplicity, but it's not memory efficient solution
-    max_y = len(rows) - 1  # index of the last row
-    for pos_y, cells in enumerate(rows):
-        max_x = len(cells) - 1  # index of the last cell
-        for pos_x, cell in enumerate(cells):
-            border = Border(
-                left=cell.border.left,
-                right=cell.border.right,
-                top=cell.border.top,
-                bottom=cell.border.bottom
-            )
-            if pos_x == 0:
-                border.left = side
-            if pos_x == max_x:
-                border.right = side
-            if pos_y == 0:
-                border.top = side
-            if pos_y == max_y:
-                border.bottom = side
-
-            # set new border only if it's one of the edge cells
-            if pos_x == 0 or pos_x == max_x or pos_y == 0 or pos_y == max_y:
-                cell.border = border
 
 
 def decimal2letter(x):

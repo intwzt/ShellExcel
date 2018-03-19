@@ -33,9 +33,12 @@ double_thin_top_border = Border(top=side_pattern[side_style[3]], left=side_patte
                                 right=side_pattern[side_style[1]], bottom=side_pattern[side_style[1]])
 border_pattern = {side_style[1]: thin_border, side_style[2]: thick_border, side_style[3]: double_thin_top_border}
 
-alignment = {1: 'left', 2: 'center', 3: 'right'}
-alignment_pattern = {alignment[1]: Alignment(horizontal="left"),
-                     alignment[2]: Alignment(horizontal="center")}
+alignment = {1: 'left', 2: 'center', 3: 'right', 4: 'title', 5: 'header'}
+alignment_pattern = {alignment[1]: Alignment(horizontal="left", vertical="center", wrap_text=True),
+                     alignment[2]: Alignment(horizontal="center", vertical="center", wrap_text=True),
+                     alignment[3]: Alignment(horizontal="right", vertical="center", wrap_text=True),
+                     alignment[4]: Alignment(horizontal="left"),
+                     alignment[5]: Alignment(horizontal="left", vertical="bottom")}
 
 column_last_row = {1: 'null', 2: 'hold', 3: 'cal', 4: 'negative'}
 

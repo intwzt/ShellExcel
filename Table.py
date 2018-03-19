@@ -1,10 +1,11 @@
 # coding=utf-8
 from openpyxl import Workbook
 
-from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, side_pattern
+from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, side_pattern, \
+    double_thin_top_border, thick_border
 from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
-from Tools import coordinate_transfer, style_range, set_border
+from Tools import coordinate_transfer, style_range
 from Style import Style
 
 
@@ -48,7 +49,7 @@ class Table:
     def _add_table_border(self):
         coordinate = coordinate_transfer(self.origin[0], self.origin[1]) + ':' + \
                      coordinate_transfer(self.end_point[0], self.end_point[1])
-        set_border(self.ws, coordinate, side_pattern[side_style[2]])
+        style_range(self.ws, coordinate, thick_border)
 
     def assign_header(self, header):
         self.header = header
@@ -58,7 +59,7 @@ class Table:
         self.title = title
 
     def _render_table_title(self):
-        style = Style(bg_color[4], border=None, font=font_style[3], al=alignment[1])
+        style = Style(bg_color[4], border=None, font=font_style[3], al=alignment[4])
         self._write_cube_to_book(self.origin[0] - 1, self.origin[1], Cube(bg_color[4], value=self.title, style=style))
 
     def _check_cube_style(self, x, y):
@@ -99,7 +100,11 @@ class Table:
                                       font_pattern[current_style.font], alignment_pattern[current_style.al])
                 # set border
                 coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row, end_column)
-                set_border(self.ws, coordinate, side_pattern[current_style.border])
+                style_range(self.ws, coordinate,
+                            border=border_pattern[current_style.border],
+                            fill=fill_pattern[current_style.fill],
+                            font=font_pattern[current_style.font],
+                            alignment=alignment_pattern[current_style.al])
 
     def assign_person(self, owner, follower=None):
         self.owner = owner
@@ -109,6 +114,7 @@ class Table:
 
     def _set_formula(self, x, y, formula):
         self.ws[coordinate_transfer(x, y)] = formula
+
 
     def _style_factory(self, c, cube):
         border = None if cube.style.border is None else border_pattern[cube.style.border]
@@ -185,7 +191,7 @@ class Table:
 
                 inner_counter += 1
                 # write column name
-                col_name_style = Style(bg_color[4], font=font_style[2])
+                col_name_style = Style(bg_color[4], font=font_style[2], al=alignment[2])
                 for i in range(person_target_column_number):
                     self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
                                              Cube(bg_color[4], ref_mapper[i], style=col_name_style))
@@ -198,7 +204,7 @@ class Table:
                 # write column data
                 for i in range(num_of_column):
                     for j in range(person_ref_column_number):
-                        # cast formula type to real formula if the cube as formula
+                        # cast formula type to real formula if the cube has formula
                         if formula_type[1] == self.follower[f].ref[ref_mapper[j]].container[i].formula:
                             start_cube = coordinate_transfer(index_x + counter + inner_counter,
                                                              index_y + j + f * person_column_number)
@@ -211,7 +217,7 @@ class Table:
                                                  self.follower[f].ref[ref_mapper[j]].container[i])
                 for i in range(num_of_column):
                     for j in range(person_target_column_number):
-                        # cast formula type to real formula if the cube as formula
+                        # cast formula type to real formula if the cube has formula
                         if formula_type[1] == self.follower[f].target[target_mapper[j]].container[i].formula:
                             start_cube = coordinate_transfer(index_x + counter + inner_counter,
                                                              index_y + j + person_ref_column_number + f * person_column_number)
@@ -246,7 +252,7 @@ class Table:
 
             counter += 1
             # write column name
-            col_name_style = Style(bg_color[4], font=font_style[2])
+            col_name_style = Style(bg_color[4], font=font_style[2], al=alignment[2])
             for i in range(person_column_number):
                 self._write_cube_to_book(index_x + counter, index_y + i,
                                          Cube(bg_color[4], target_mapper[i], style=col_name_style))
@@ -254,7 +260,7 @@ class Table:
             # write column data
             for i in range(num_of_column):
                 for j in range(person_target_column_number):
-                    # cast formula type to real formula if the cube as formula
+                    # cast formula type to real formula if the cube has formula
                     if formula_type[1] == self.owner.target[target_mapper[j]].container[i].formula:
                         start_cube = coordinate_transfer(index_x + counter, index_y + j)
                         end_cube = coordinate_transfer(index_x + counter + i - 1, index_y + j)
