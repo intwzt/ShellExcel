@@ -2,7 +2,7 @@
 from Style import Style
 from Common import bg_color, side_style, font_style, alignment
 
-# if you need add style for single gird, add it as need_merge parameter
+# if you need add style for single gird, add it as need_merge cell
 common1_matrix = [
     [None, None],
     [None, 'Product'],

@@ -54,5 +54,13 @@ def coordinate_transfer(x, y):
     return decimal2letter(y) + str(x)
 
 
+def as_text(value):
+    if value is None:
+        return ""
+    elif type(value) is int:
+        return str(value)
+    return str(value.encode('utf-8'))
+
+
 if __name__ == '__main__':
     print coordinate_transfer(27, 26)

@@ -5,12 +5,13 @@ from Style import Style
 
 
 class Column:
-    def __init__(self, num, col_type, col_role, last_row=column_last_row[4]):
+    def __init__(self, num, col_type, col_role, number_format=None, last_row=column_last_row[4]):
         self.count = num
         self.container = []
         self.col_type = col_type
         self.col_role = col_role
         self.last_row = last_row
+        self.number_format = number_format
         for i in range(num):
             self.container.append(self._set_style())
 
@@ -23,6 +24,11 @@ class Column:
             return Cube(bg_color[2])
         else:
             return Cube(bg_color[4])
+
+    def _check_number_format(self):
+        if self.number_format is not None:
+            for item in self.container:
+                item.set_number_format(self.number_format)
 
     def _get_last_row(self):
         if self.last_row == column_last_row[1]:
@@ -46,3 +52,4 @@ class Column:
         # add last row
         if self.last_row != column_last_row[4]:
             self.container.append(self._get_last_row())
+        self._check_number_format()

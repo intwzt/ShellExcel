@@ -1,12 +1,12 @@
 # coding=utf-8
 from openpyxl import Workbook
+from openpyxl.styles import numbers
 
-from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, side_pattern, \
-    double_thin_top_border, thick_border
+from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, thick_border
 from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
-from Tools import coordinate_transfer, style_range
 from Style import Style
+from Tools import coordinate_transfer, style_range, as_text
 
 
 class Table:
@@ -26,6 +26,11 @@ class Table:
 
         # remove GridLines
         self.ws.sheet_view.showGridLines = False
+
+    def _adjust_column_width(self):
+        for column_cells in self.ws.columns:
+            # length = max(len(as_text(cell.value)) for cell in column_cells)
+            self.ws.column_dimensions[column_cells[0].column].width = 10
 
     def _cal_end_point(self):
         body_len_x = 0
@@ -99,7 +104,8 @@ class Table:
                                       border_pattern[current_style.border], fill_pattern[current_style.fill],
                                       font_pattern[current_style.font], alignment_pattern[current_style.al])
                 # set border
-                coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row, end_column)
+                coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row,
+                                                                                                      end_column)
                 style_range(self.ws, coordinate,
                             border=border_pattern[current_style.border],
                             fill=fill_pattern[current_style.fill],
@@ -115,7 +121,6 @@ class Table:
     def _set_formula(self, x, y, formula):
         self.ws[coordinate_transfer(x, y)] = formula
 
-
     def _style_factory(self, c, cube):
         border = None if cube.style.border is None else border_pattern[cube.style.border]
         fill = None if cube.style.fill is None else fill_pattern[cube.style.fill]
@@ -126,6 +131,10 @@ class Table:
         c.font = font
         c.alignment = al
 
+    def _builtin_style(self, c, cube):
+        if cube.number_format is not None:
+            c.number_format = numbers.builtin_format_code(cube.number_format)
+
     def _write_cube_to_book(self, x, y, cube):
         c = self.ws.cell(x, y, cube.value)
         if cube.formula is not None:
@@ -133,6 +142,7 @@ class Table:
         # write style
         # get cell range
         self._style_factory(c, cube)
+        self._builtin_style(c, cube)
 
     def print_info(self):
         self.owner.print_info()
@@ -141,7 +151,6 @@ class Table:
         self.wb.save('result.xlsx')
 
     def render(self):
-        self._render_table_title()
         # render header
         self._render_table_header()
         # render body
@@ -157,6 +166,12 @@ class Table:
 
         num_of_column = 0 if len(self.follower) is None else len(self.follower[0].target[target_mapper[0]].container)
         self._render_follower(counter, index_x, index_y, num_of_column)
+
+        # adjust column width
+        self._adjust_column_width()
+
+        # render title after adjustment of column width in case title len is too long
+        self._render_table_title()
 
         # add table border
         self._cal_end_point()
