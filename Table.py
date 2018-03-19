@@ -1,10 +1,10 @@
 # coding=utf-8
 from openpyxl import Workbook
 
-from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern
+from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, side_pattern
 from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
-from Tools import coordinate_transfer, style_range
+from Tools import coordinate_transfer, style_range, set_border
 from Style import Style
 
 
@@ -21,7 +21,34 @@ class Table:
 
         self.wb = Workbook()
         self.ws = self.wb.active
-        self.end = [ox, oy]
+        self.end_point = [ox, oy]
+
+        # remove GridLines
+        self.ws.sheet_view.showGridLines = False
+
+    def _cal_end_point(self):
+        body_len_x = 0
+        body_len_y = 0
+        # cal body_len_y based on table body
+        if len(self.follower) > 0:
+            # get follower column parameter
+            follower_target_column_gap = len(self.follower[0].target)
+            follower_ref_column_gap = len(self.follower[0].ref)
+            follower_column_gap = follower_target_column_gap + follower_ref_column_gap
+            body_len_y += follower_column_gap * len(self.follower)
+        # get owner column parameter
+        owner_column_gap = len(self.owner.target)
+        body_len_y += owner_column_gap * 1
+
+        # cal body_len_x based on table header
+        if self.header is not None:
+            body_len_x += self.header.x
+        self.end_point = [body_len_x + self.origin[0] - 1, body_len_y + self.origin[1] + 1]
+
+    def _add_table_border(self):
+        coordinate = coordinate_transfer(self.origin[0], self.origin[1]) + ':' + \
+                     coordinate_transfer(self.end_point[0], self.end_point[1])
+        set_border(self.ws, coordinate, side_pattern[side_style[2]])
 
     def assign_header(self, header):
         self.header = header
@@ -64,9 +91,15 @@ class Table:
                                     start_column=start_column,
                                     end_row=end_row,
                                     end_column=end_column)
+                # get style of cell need merged
+                current_style = m['style']
+
                 self._merge_body_cell(end_column, end_row, start_column, start_row,
-                                      border_pattern[side_style[1]], fill_pattern[bg_color[4]],
-                                      font_pattern[font_style[2]], alignment_pattern[alignment[2]])
+                                      border_pattern[current_style.border], fill_pattern[current_style.fill],
+                                      font_pattern[current_style.font], alignment_pattern[current_style.al])
+                # set border
+                coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row, end_column)
+                set_border(self.ws, coordinate, side_pattern[current_style.border])
 
     def assign_person(self, owner, follower=None):
         self.owner = owner
@@ -119,6 +152,10 @@ class Table:
         num_of_column = 0 if len(self.follower) is None else len(self.follower[0].target[target_mapper[0]].container)
         self._render_follower(counter, index_x, index_y, num_of_column)
 
+        # add table border
+        self._cal_end_point()
+        self._add_table_border()
+
     def _render_follower(self, counter, index_x, index_y, num_of_column):
         # write follower if exist
         if len(self.follower) > 0:
@@ -148,12 +185,14 @@ class Table:
 
                 inner_counter += 1
                 # write column name
+                col_name_style = Style(bg_color[4], font=font_style[2])
                 for i in range(person_target_column_number):
                     self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
-                                             Cube(bg_color[4], ref_mapper[i]))
+                                             Cube(bg_color[4], ref_mapper[i], style=col_name_style))
                 for i in range(person_target_column_number, person_column_number):
                     self._write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
-                                             Cube(bg_color[4], target_mapper[i - person_target_column_number]))
+                                             Cube(bg_color[4], target_mapper[i - person_target_column_number],
+                                                  style=col_name_style))
 
                 inner_counter += 1
                 # write column data
@@ -193,7 +232,8 @@ class Table:
             person_column_number = person_target_column_number
             # write person name
             for i in range(person_column_number):
-                self._write_cube_to_book(index_x + counter, index_y + i, Cube(bg_color[4], self.owner.name))
+                self._write_cube_to_book(index_x + counter, index_y + i,
+                                         Cube(bg_color[4], self.owner.name))
 
             # merge name cells
             start_row = index_x + counter
@@ -206,8 +246,10 @@ class Table:
 
             counter += 1
             # write column name
+            col_name_style = Style(bg_color[4], font=font_style[2])
             for i in range(person_column_number):
-                self._write_cube_to_book(index_x + counter, index_y + i, Cube(bg_color[4], target_mapper[i]))
+                self._write_cube_to_book(index_x + counter, index_y + i,
+                                         Cube(bg_color[4], target_mapper[i], style=col_name_style))
             counter += 1
             # write column data
             for i in range(num_of_column):

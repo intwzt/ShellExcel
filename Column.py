@@ -1,6 +1,7 @@
 # coding=utf-8
+from Common import bg_color, column_type, role, column_last_row, formula_type, side_style
 from Cube import Cube
-from Common import bg_color, column_type, role, column_last_row, formula_type
+from Style import Style
 
 
 class Column:
@@ -27,9 +28,11 @@ class Column:
         if self.last_row == column_last_row[1]:
             return Cube(bg_color[4])
         elif self.last_row == column_last_row[2]:
-            return Cube(bg_color[4], value='N/A')
+            column_sum_style = Style(bg_color=bg_color[4], border=side_style[3])
+            return Cube(bg_color[4], value='N/A', style=column_sum_style)
         elif self.last_row == column_last_row[3]:
-            return Cube(bg_color[1], formula=formula_type[1])
+            column_sum_style = Style(bg_color=bg_color[1], border=side_style[3])
+            return Cube(bg_color[1], formula=formula_type[1], style=column_sum_style)
         else:
             pass
 

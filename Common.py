@@ -20,11 +20,18 @@ ref_mapper = ['Ref UC3 $', 'Ref UNP $', 'Ref Portfolio %']
 
 column_type = {1: 'target', 2: 'ref'}
 
-side_style = {1: 'thin'}
-side_pattern = {side_style[1]: Side(border_style="thin", color="8e8d8d")}
+side_style = {1: 'thin', 2: 'thick', 3: 'double_thin_top'}
+side_pattern = {side_style[1]: Side(border_style="thin", color="8e8d8d"),
+                side_style[2]: Side(border_style="thick", color="000000"),
+                side_style[3]: Side(border_style="double", color="000000"),
+                }
 thin_border = Border(top=side_pattern[side_style[1]], left=side_pattern[side_style[1]],
                      right=side_pattern[side_style[1]], bottom=side_pattern[side_style[1]])
-border_pattern = {side_style[1]: thin_border}
+thick_border = Border(top=side_pattern[side_style[2]], left=side_pattern[side_style[2]],
+                      right=side_pattern[side_style[2]], bottom=side_pattern[side_style[2]])
+double_thin_top_border = Border(top=side_pattern[side_style[3]], left=side_pattern[side_style[1]],
+                                right=side_pattern[side_style[1]], bottom=side_pattern[side_style[1]])
+border_pattern = {side_style[1]: thin_border, side_style[2]: thick_border, side_style[3]: double_thin_top_border}
 
 alignment = {1: 'left', 2: 'center', 3: 'right'}
 alignment_pattern = {alignment[1]: Alignment(horizontal="left"),

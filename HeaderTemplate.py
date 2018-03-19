@@ -1,6 +1,6 @@
 # coding=utf-8
 from Style import Style
-from Common import bg_color
+from Common import bg_color, side_style
 
 common1_matrix = [
     [None, None],
@@ -29,7 +29,7 @@ common1_matrix = [
 common1_need_merge = [
     {'coordinate': [2, 0, 10, 0], 'style': Style(bg_color[4])},
     {'coordinate': [11, 0, 19, 0], 'style': Style(bg_color[4])},
-    {'coordinate': [20, 0, 20, 1], 'style': Style(bg_color[4])}
+    {'coordinate': [20, 0, 20, 1], 'style': Style(bg_color[4], border=side_style[3])}
 ]
 
 common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge}

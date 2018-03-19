@@ -3,7 +3,7 @@ from Style import Style
 
 
 class Cube:
-    def __init__(self, bg_color, value=None, formula=None, style=None):
+    def __init__(self, bg_color=None, value=None, formula=None, style=None):
         if style is None:
             self.style = Style(bg_color)
             self.formula = formula
