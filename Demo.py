@@ -11,7 +11,7 @@ from TableHeader import TableHeader
 def get_random_array(num):
     res = []
     for i in range(num):
-        res.append(random.randint(1, 100))
+        res.append(random.randint(1, 9))
     return res
 
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     follow = [f1, f2, f3]
 
-    table = Table(5, 3)
+    table = Table(2, 20)
     header = TableHeader(common_header1)
     table.assign_title('2. 调整ICAM的Portfolio的UC3 UNP以及Portfolio%')
     table.assign_header(header)

@@ -6,7 +6,7 @@ from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_patte
 from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
 from Style import Style
-from Tools import coordinate_transfer, style_range, as_text
+from Tools import coordinate_transfer, style_range
 
 
 class Table:
@@ -30,7 +30,7 @@ class Table:
     def _adjust_column_width(self):
         for column_cells in self.ws.columns:
             # length = max(len(as_text(cell.value)) for cell in column_cells)
-            self.ws.column_dimensions[column_cells[0].column].width = 10
+            self.ws.column_dimensions[column_cells[0].column].width = 12
 
     def _cal_end_point(self):
         body_len_x = 0

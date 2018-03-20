@@ -1,10 +1,12 @@
 from openpyxl import Workbook
 
-from Common import double_thin_top_border, side_pattern, side_style
-from Tools import style_range, set_border
+from Common import double_thin_top_border
+from Tools import style_range, coordinate_transfer
 
 wb = Workbook()
 ws = wb.active
-style_range(ws, "B2:F4", double_thin_top_border)
-set_border(ws, "H2:M4", side_pattern[side_style[3]])
+
+coordinate = coordinate_transfer(3, 27) + ':' + coordinate_transfer(5, 29)
+print coordinate
+style_range(ws, coordinate, double_thin_top_border)
 wb.save("styled.xlsx")

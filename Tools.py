@@ -1,5 +1,6 @@
 # coding=utf-8
 from openpyxl.styles import Border
+import math
 
 
 def restructure_border(border, top=None, left=None, right=None, bottom=None):
@@ -41,13 +42,18 @@ def style_range(ws, cell_range, border=Border(), fill=None, font=None, alignment
 
 
 def decimal2letter(x):
-    x -= 1
-    result = ''
-    while int(x / 26):
-        result += chr(ord('A') + x % 26)
-        x /= 26
-    result += chr(ord('A') + x % 26)
-    return result[::-1]
+    res = ['@']
+    for i in range(x):
+        count = 0
+        ex = 1
+        while ex:
+            tmp = ord(res[count])
+            res[count] = chr(((tmp - 65 + 1) % 26) + 65)
+            ex = (tmp - 65 + 1) / 26
+            count += 1
+            if count > len(res) - 1 and ex:
+                res.append('@')
+    return ''.join(res)[::-1]
 
 
 def coordinate_transfer(x, y):
@@ -63,4 +69,5 @@ def as_text(value):
 
 
 if __name__ == '__main__':
-    print coordinate_transfer(27, 26)
+    for i in range(1, 26 * 26 + 100):
+        print i, decimal2letter(i)

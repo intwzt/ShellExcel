@@ -28,6 +28,9 @@ class Column:
     def _check_number_format(self):
         if self.number_format is not None:
             for item in self.container:
+                # number_format = 10 means number format is percentage, check detail at builtin_style
+                # if item.value is not None and self.number_format == 10:
+                #     item.set_value(item.value / 100.0)
                 item.set_number_format(self.number_format)
 
     def _get_last_row(self):
