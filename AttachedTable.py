@@ -28,9 +28,10 @@ class AttachedTable:
         self.title = title
 
     def _cal_end_point(self):
-        end_x = self.origin[0] + 6
-        end_y = (0 if self.main_table.owner is None else 1) + (
-            0 if self.main_table.follower is None else len(self.main_table.follower)) + 1
+        num_of_owner = 0 if self.main_table.owner is None else 1
+        numb_of_follower = 0 if self.main_table.follower is None else len(self.main_table.follower)
+        end_x = self.origin[0] + num_of_owner + numb_of_follower + 2 - 1
+        end_y = self.origin[1] + 6
         self.end_point = [end_x, end_y]
 
     def _add_table_border(self):
@@ -91,7 +92,7 @@ class AttachedTable:
         for i in range(3):
             for f in range(num_of_follower):
                 header_name = attach_column_type[i]
-                person_name = self.main_table.follower[i].name
+                person_name = self.main_table.follower[f].name
                 self.container[attach_column_type[i]].container[f].set_value(
                     self._get_ref_value(header_name, person_name))
 
@@ -109,7 +110,7 @@ class AttachedTable:
         # add total and owner for Target Volume KL
         # assign total formula
         total_coordinate = coordinate_transfer(self.origin[0] + 1, self.origin[1] + 4) + ':' + \
-                           coordinate_transfer(self.origin[0] + 1 + num_of_follower, self.origin[1] + 4)
+                           coordinate_transfer(self.origin[0] + num_of_follower, self.origin[1] + 4)
         total_formula = "=SUM(" + total_coordinate + ")"
         self.container[attach_column_type[3]].container[-1].set_formula(total_formula)
 
@@ -131,12 +132,12 @@ class AttachedTable:
             second_column = coordinate_transfer(main_table_body[0] + 2, main_table_body[1] + 3 + i * 6 + 5) + \
                             ':' + coordinate_transfer(main_table_body[0] + 2 + num_of_row - 1,
                                                       main_table_body[1] + 3 + i * 6 + 5)
-            formula = base_coordinate + '*' + 'SUMPRODUCT(' + first_column + ',' + second_column + ')'
+            formula = '=' + base_coordinate + '*' + 'SUMPRODUCT(' + first_column + ',' + second_column + ')'
             self.container[attach_column_type[4]].container[i].set_formula(formula)
 
         # assign total formula
         total_coordinate = coordinate_transfer(self.origin[0] + 1, self.origin[1] + 5) + ':' + \
-                           coordinate_transfer(self.origin[0] + 1 + num_of_follower, self.origin[1] + 5)
+                           coordinate_transfer(self.origin[0] + num_of_follower, self.origin[1] + 5)
         total_formula = "=SUM(" + total_coordinate + ")"
         self.container[attach_column_type[4]].container[-1].set_formula(total_formula)
 
@@ -158,12 +159,12 @@ class AttachedTable:
             second_column = coordinate_transfer(main_table_body[0] + 2, main_table_body[1] + 3 + i * 6 + 5) + \
                             ':' + coordinate_transfer(main_table_body[0] + 2 + num_of_row - 1,
                                                       main_table_body[1] + 3 + i * 6 + 5)
-            formula = base_coordinate + '*' + 'SUMPRODUCT(' + first_column + ',' + second_column + ')'
+            formula = '=' + base_coordinate + '*' + 'SUMPRODUCT(' + first_column + ',' + second_column + ')'
             self.container[attach_column_type[5]].container[i].set_formula(formula)
 
         # assign total formula
         total_coordinate = coordinate_transfer(self.origin[0] + 1, self.origin[1] + 6) + ':' + \
-                           coordinate_transfer(self.origin[0] + 1 + num_of_follower, self.origin[1] + 6)
+                           coordinate_transfer(self.origin[0] + num_of_follower, self.origin[1] + 6)
         total_formula = "=SUM(" + total_coordinate + ")"
         self.container[attach_column_type[5]].container[-1].set_formula(total_formula)
 
@@ -178,15 +179,18 @@ class AttachedTable:
         self._extract_column_data()
 
     def _get_current_cube(self, i, j):
-        return self.container[attach_column_type[j]].container[i]
+        if j == 0:
+            return self.container[attach_column_type[j]].container[i], Cube(value=self.name[i], style=Style(bg_color[4], al=alignment[1]))
+        else:
+            return self.container[attach_column_type[j]].container[i], None
 
     def _render_table_header(self):
         self.main_table.write_cube_to_book(self.origin[0], self.origin[1],
-                                           Cube(value='Name', style=Style(bg_color[4], al=alignment[1])))
+                                           Cube(value='Name', style=Style(bg_color[4], font=font_style[2], al=alignment[1])))
         for i in range(1, 7):
             self.main_table.write_cube_to_book(self.origin[0], self.origin[1] + i,
                                                Cube(value=attach_column_type[i - 1],
-                                                    style=Style(bg_color[4], al=alignment[1])))
+                                                    style=Style(bg_color[4], font=font_style[2], al=alignment[1])))
 
     def render(self):
         self._extract_data()
@@ -195,7 +199,11 @@ class AttachedTable:
         num_of_row = len(self.name)
         for i in range(num_of_row):
             for j in range(len(attach_column_type)):
-                self.main_table.write_cube_to_book(i + 1 + self.origin[0] + 1, j + 1 + self.origin[1] + 1,
-                                                   self._get_current_cube(i, j))
+                col_cube, name_cube = self._get_current_cube(i, j)
+                if name_cube is not None:
+                    self.main_table.write_cube_to_book(i + self.origin[0] + 1, j + self.origin[1], name_cube)
+                    self.main_table.write_cube_to_book(i + self.origin[0] + 1, j + self.origin[1] + 1, col_cube)
+                else:
+                    self.main_table.write_cube_to_book(i + self.origin[0] + 1, j + self.origin[1] + 1, col_cube)
         self._cal_end_point()
         self._add_table_border()
