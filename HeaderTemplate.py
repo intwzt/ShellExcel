@@ -54,3 +54,5 @@ common1_need_merge = [
 ]
 
 common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge}
+
+header_index = {'RSM': common_header1, 'SD': common_header1}

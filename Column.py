@@ -15,6 +15,10 @@ class Column:
         self.formula_type = formula_type
         for i in range(num):
             self.container.append(self._set_style())
+        # add last row
+        if self.last_row != column_last_row[4]:
+            self.container.append(self._get_last_row())
+        self._check_number_format()
 
     def _set_style(self):
         if self.col_type == column_type[1] and self.col_role == role[1] and self.formula_type is None:
@@ -52,7 +56,3 @@ class Column:
             return
         for i in range(source_len):
             self.container[i].set_value(source[i])
-        # add last row
-        if self.last_row != column_last_row[4]:
-            self.container.append(self._get_last_row())
-        self._check_number_format()

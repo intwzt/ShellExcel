@@ -1,7 +1,8 @@
 # coding=utf-8
 
 from Column import Column
-from Common import bg_color, formula_type, attach_column_type, column_type, role, target_mapper, font_style, alignment
+from Common import bg_color, formula_type, attach_column_type, column_type, role, target_mapper, font_style, alignment, \
+    side_style
 from Common import column_last_row, thick_border
 from Cube import Cube
 from Style import Style
@@ -54,8 +55,7 @@ class AttachedTable:
 
     def _init_column(self):
         # extract total number of people
-        num = (0 if self.main_table.owner is None else 1) + (
-            0 if self.main_table.follower is None else len(self.main_table.follower))
+        num = 0 if self.main_table.follower is None else len(self.main_table.follower)
         # ref column
         for i in range(2):
             col = Column(num, column_type[2], role[1], last_row=column_last_row[3])
@@ -66,11 +66,12 @@ class AttachedTable:
                                                        number_format=10)
 
         self.container[attach_column_type[3]] = Column(num, column_type[1], role[2],
-                                                       last_row=column_last_row[3],
-                                                       formula_type=formula_type[3])
+                                                       last_row=column_last_row[3])
+
         self.container[attach_column_type[4]] = Column(num, column_type[1], role[2],
                                                        last_row=column_last_row[3],
                                                        formula_type=formula_type[2])
+
         self.container[attach_column_type[5]] = Column(num, column_type[1], role[2],
                                                        last_row=column_last_row[3],
                                                        formula_type=formula_type[2])
@@ -101,7 +102,6 @@ class AttachedTable:
                                coordinate_transfer(self.origin[0] + 1 + num_of_follower - 1, self.origin[1] + 1 + i)
             total_formula = "=SUM(" + total_coordinate + ")"
             self.container[attach_column_type[i]].container[-1].set_formula(total_formula)
-            self.container[attach_column_type[i]].container[-1].set_style(Style(bg_color[1]))
 
             # assign if table has owner
             if self.main_table.owner is not None:
@@ -178,11 +178,14 @@ class AttachedTable:
         self._extract_name()
         self._extract_column_data()
 
-    def _get_current_cube(self, i, j):
-        if j == 0:
-            return self.container[attach_column_type[j]].container[i], Cube(value=self.name[i], style=Style(bg_color[4], al=alignment[1]))
+    def _get_current_cube(self, x, y, num):
+        if y == 0:
+            if x == num - 2:
+                return self.container[attach_column_type[y]].container[x], Cube(value=self.name[x], style=Style(bg_color[4], font=font_style[2], border=side_style[3], al=alignment[1]))
+            else:
+                return self.container[attach_column_type[y]].container[x], Cube(value=self.name[x], style=Style(bg_color[4], font=font_style[2], al=alignment[1]))
         else:
-            return self.container[attach_column_type[j]].container[i], None
+            return self.container[attach_column_type[y]].container[x], None
 
     def _render_table_header(self):
         self.main_table.write_cube_to_book(self.origin[0], self.origin[1],
@@ -199,7 +202,7 @@ class AttachedTable:
         num_of_row = len(self.name)
         for i in range(num_of_row):
             for j in range(len(attach_column_type)):
-                col_cube, name_cube = self._get_current_cube(i, j)
+                col_cube, name_cube = self._get_current_cube(i, j, num_of_row)
                 if name_cube is not None:
                     self.main_table.write_cube_to_book(i + self.origin[0] + 1, j + self.origin[1], name_cube)
                     self.main_table.write_cube_to_book(i + self.origin[0] + 1, j + self.origin[1] + 1, col_cube)
