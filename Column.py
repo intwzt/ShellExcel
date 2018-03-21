@@ -5,32 +5,32 @@ from Style import Style
 
 
 class Column:
-    def __init__(self, num, col_type, col_role, number_format=None, last_row=column_last_row[4]):
+    def __init__(self, num, col_type, col_role, number_format=None, last_row=column_last_row[4], formula_type=None):
         self.count = num
         self.container = []
         self.col_type = col_type
         self.col_role = col_role
         self.last_row = last_row
         self.number_format = number_format
+        self.formula_type = formula_type
         for i in range(num):
             self.container.append(self._set_style())
 
     def _set_style(self):
-        if self.col_type == column_type[1] and self.col_role == role[1]:
+        if self.col_type == column_type[1] and self.col_role == role[1] and self.formula_type is None:
             return Cube(bg_color[3])
-        elif self.col_type == column_type[1] and self.col_role == role[2]:
+        elif self.col_type == column_type[1] and self.col_role == role[2] and self.formula_type is None:
             return Cube(bg_color[4])
-        elif self.col_type == column_type[2]:
+        elif self.col_type == column_type[2] and self.formula_type is None:
             return Cube(bg_color[2])
+        elif self.formula_type is not None:
+            return Cube(bg_color[1])
         else:
             return Cube(bg_color[4])
 
     def _check_number_format(self):
         if self.number_format is not None:
             for item in self.container:
-                # number_format = 10 means number format is percentage, check detail at builtin_style
-                # if item.value is not None and self.number_format == 10:
-                #     item.set_value(item.value / 100.0)
                 item.set_number_format(self.number_format)
 
     def _get_last_row(self):

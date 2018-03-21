@@ -18,6 +18,10 @@ target_mapper = ['Target UC3 $', 'Target UNP $', 'Target Portfolio %']
 
 ref_mapper = ['Ref UC3 $', 'Ref UNP $', 'Ref Portfolio %']
 
+attach_column_type = ['LE KL', 'Market size KL',
+                      'Market Share %', 'Target Volume KL',
+                      'Target C3 $', 'Target Proceed $']
+
 column_type = {1: 'target', 2: 'ref'}
 
 side_style = {1: 'thin', 2: 'thick', 3: 'double_thin_top'}
@@ -42,7 +46,7 @@ alignment_pattern = {alignment[1]: Alignment(horizontal="left", vertical="center
 
 column_last_row = {1: 'null', 2: 'hold', 3: 'cal', 4: 'negative'}
 
-formula_type = {1: 'column_total'}
+formula_type = {1: 'column_total', 2: 'inner_product', 3: 'null'}
 
 font_style = {1: 'normal', 2: 'bold', 3: 'table_title'}
 font_pattern = {font_style[1]: Font(b=False, name="Microsoft YaHei", color="000000", size=10),

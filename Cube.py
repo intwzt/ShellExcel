@@ -12,6 +12,9 @@ class Cube:
         self.value = value
         self.number_format = number_format
 
+    def set_style(self, style):
+        self.style = style
+
     def set_value(self, value):
         self.value = value
 

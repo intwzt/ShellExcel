@@ -1,5 +1,5 @@
 # coding=utf-8
-from Common import role, column_type, target_mapper, ref_mapper, column_last_row
+from Common import role, column_type, target_mapper, ref_mapper, column_last_row, formula_type
 from Column import Column
 
 
@@ -9,6 +9,12 @@ class Person:
         self.role = person_role
         self.name = ''
         self.ref = None
+
+        # attached table value
+        self.LE = None
+        self.Market_Size = None
+        self.Market_Share = None
+
         if person_role == role[2]:
             self.ref = {ref_mapper[0]: [], ref_mapper[1]: [], ref_mapper[2]: []}
         self.target = {target_mapper[0]: [], target_mapper[1]: [], target_mapper[2]: []}
@@ -45,7 +51,25 @@ class Person:
 
     def assign_all_value(self, data):
         ref_value = None
+        target_value = None
         if 'ref_value' in data:
             ref_value = data['ref_value']
+        if 'target_value' in data:
+            target_value = data['target_value']
         num = len(data['target_value'][target_mapper[0]])
-        self.set_column_value(num, data['target_value'], ref_value, data['name'])
+        if self.role == role[2]:
+            self.LE = data['LE KL']
+            self.Market_Size = data['Market size KL']
+            self.Market_Share = data['Market Share']
+        self.set_column_value(num, target_value, ref_value, data['name'])
+
+    def attached_column_name_mapper(self, col_name):
+        if col_name == 'LE KL':
+            return self.LE
+        elif col_name == 'Market size KL':
+            return self.Market_Size
+        elif col_name == 'Market Share %':
+            return self.Market_Share
+        else:
+            print 'error column name', col_name, 'for attached table'
+            return None
