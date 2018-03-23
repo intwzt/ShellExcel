@@ -55,7 +55,7 @@ class SheetBook:
     def _render_sheet(self):
         for i in range(0, self.num_of_page - 1):
             page_name = sheet_type[self.table_type]['page'][i+1]
-            sheet = Sheet(self.pages[i], i, self.data[page_name], RSM)
+            sheet = Sheet(self.pages[i], i+1, self.data[page_name], RSM)
             sheet.render()
 
     def _create_pages(self):

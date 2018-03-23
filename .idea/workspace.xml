@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6603d0bd-f344-4abb-b25c-e18755ff9131" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/excel_files/test.xlsx" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tools.py" afterPath="$PROJECT_DIR$/Tools.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/excel_generator/Demo.py" afterPath="$PROJECT_DIR$/excel_generator/Demo.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/excel_generator/Sheet.py" afterPath="$PROJECT_DIR$/excel_generator/Sheet.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/excel_generator/SheetBook.py" afterPath="$PROJECT_DIR$/excel_generator/SheetBook.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template/HeaderTemplate.py" afterPath="$PROJECT_DIR$/template/HeaderTemplate.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template/SheetPageTemplate.py" afterPath="$PROJECT_DIR$/template/SheetPageTemplate.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template/SheetType.py" afterPath="$PROJECT_DIR$/template/SheetType.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template/TitleTemplate.py" afterPath="$PROJECT_DIR$/template/TitleTemplate.py" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,21 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Tools.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Tools.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SheetPageTemplate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/template/SheetPageTemplate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
+            <state relative-caret-position="45">
+              <caret line="3" column="116" lean-forward="true" selection-start-line="3" selection-start-column="116" selection-end-line="3" selection-end-column="116" />
               <folding />
             </state>
           </provider>
@@ -45,8 +32,8 @@
       <file leaf-file-name="SheetType.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/template/SheetType.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+            <state relative-caret-position="120">
+              <caret line="8" column="63" lean-forward="false" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
               <folding>
                 <element signature="e#15#54#0" expanded="true" />
               </folding>
@@ -57,9 +44,21 @@
       <file leaf-file-name="TitleTemplate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/template/TitleTemplate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="32" lean-forward="true" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+            <state relative-caret-position="90">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainTable.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/excel_generator/MainTable.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-333">
+              <caret line="131" column="0" lean-forward="true" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+              <folding>
+                <element signature="e#15#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,8 +66,8 @@
       <file leaf-file-name="Sheet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/excel_generator/Sheet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="9" lean-forward="false" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state relative-caret-position="139">
+              <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
               <folding>
                 <element signature="e#15#54#0" expanded="true" />
               </folding>
@@ -79,8 +78,8 @@
       <file leaf-file-name="SheetBook.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/excel_generator/SheetBook.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="50" column="43" lean-forward="true" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
+            <state relative-caret-position="855">
+              <caret line="57" column="72" lean-forward="true" selection-start-line="57" selection-start-column="72" selection-end-line="57" selection-end-column="72" />
               <folding>
                 <element signature="e#15#24#0" expanded="true" />
               </folding>
@@ -91,8 +90,8 @@
       <file leaf-file-name="Demo.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/excel_generator/Demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="60" column="44" lean-forward="true" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
+            <state relative-caret-position="497">
+              <caret line="58" column="52" lean-forward="true" selection-start-line="58" selection-start-column="52" selection-end-line="58" selection-end-column="52" />
               <folding>
                 <element signature="e#15#28#0" expanded="true" />
               </folding>
@@ -115,6 +114,7 @@
       <find>attach_column_type</find>
       <find>17</find>
       <find>write_cube_to_book</find>
+      <find>page</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -157,19 +157,19 @@
         <option value="$PROJECT_DIR$/excel_parser/Demo.py" />
         <option value="$PROJECT_DIR$/excel_parser/Parser.py" />
         <option value="$PROJECT_DIR$/template/SheetPageTemplate.py" />
-        <option value="$PROJECT_DIR$/template/TitleTemplate.py" />
-        <option value="$PROJECT_DIR$/excel_generator/Sheet.py" />
         <option value="$PROJECT_DIR$/Tools.py" />
         <option value="$PROJECT_DIR$/template/SheetType.py" />
         <option value="$PROJECT_DIR$/template/HeaderTemplate.py" />
         <option value="$PROJECT_DIR$/excel_generator/Demo.py" />
+        <option value="$PROJECT_DIR$/template/TitleTemplate.py" />
         <option value="$PROJECT_DIR$/excel_generator/SheetBook.py" />
+        <option value="$PROJECT_DIR$/excel_generator/Sheet.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-26" />
-    <option name="y" value="-960" />
+    <option name="x" value="23" />
+    <option name="y" value="-1022" />
     <option name="width" value="1410" />
     <option name="height" value="789" />
   </component>
@@ -292,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521787592829</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="data refactor for page">
+      <created>1521790667929</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1521790667929</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -305,7 +312,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-26" y="-960" width="1410" height="789" extended-state="0" />
+    <frame x="23" y="-1022" width="1410" height="789" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -359,7 +366,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="RSM and SD done" />
-    <option name="LAST_COMMIT_MESSAGE" value="RSM and SD done" />
+    <MESSAGE value="data refactor for page" />
+    <option name="LAST_COMMIT_MESSAGE" value="data refactor for page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -433,13 +441,6 @@
     <entry file="file://$PROJECT_DIR$/SheetType.py" />
     <entry file="file://$PROJECT_DIR$/Sheet.py" />
     <entry file="file://$PROJECT_DIR$/Demo.py" />
-    <entry file="file://$PROJECT_DIR$/excel_generator/AttachedTable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="192" column="23" lean-forward="true" selection-start-line="192" selection-start-column="23" selection-end-line="192" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/excel_generator/Column.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -489,26 +490,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/excel_generator/MainTable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1116">
-          <caret line="114" column="0" lean-forward="true" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
-          <folding>
-            <element signature="e#15#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/excel_generator/Sheet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="9" lean-forward="false" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-          <folding>
-            <element signature="e#15#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/excel_parser/Demo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -516,22 +497,6 @@
           <folding>
             <element signature="e#15#53#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/template/SheetPageTemplate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -561,28 +526,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/excel_generator/AttachedTable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2625">
+          <caret line="182" column="43" lean-forward="true" selection-start-line="182" selection-start-column="43" selection-end-line="182" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="49" column="33" lean-forward="true" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/TitleTemplate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/SheetPageTemplate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="116" lean-forward="true" selection-start-line="3" selection-start-column="116" selection-end-line="3" selection-end-column="116" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/template/SheetType.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="33" lean-forward="false" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+        <state relative-caret-position="120">
+          <caret line="8" column="63" lean-forward="false" selection-start-line="8" selection-start-column="63" selection-end-line="8" selection-end-column="63" />
           <folding>
             <element signature="e#15#54#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/template/TitleTemplate.py">
+    <entry file="file://$PROJECT_DIR$/excel_generator/Sheet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="32" lean-forward="true" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
-          <folding />
+        <state relative-caret-position="139">
+          <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+          <folding>
+            <element signature="e#15#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/excel_generator/MainTable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-333">
+          <caret line="131" column="0" lean-forward="true" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding>
+            <element signature="e#15#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/excel_generator/Demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="60" column="44" lean-forward="true" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
+        <state relative-caret-position="497">
+          <caret line="58" column="52" lean-forward="true" selection-start-line="58" selection-start-column="52" selection-end-line="58" selection-end-column="52" />
           <folding>
             <element signature="e#15#28#0" expanded="true" />
           </folding>
@@ -591,8 +600,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/excel_generator/SheetBook.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="50" column="43" lean-forward="true" selection-start-line="50" selection-start-column="43" selection-end-line="50" selection-end-column="43" />
+        <state relative-caret-position="855">
+          <caret line="57" column="72" lean-forward="true" selection-start-line="57" selection-start-column="72" selection-end-line="57" selection-end-column="72" />
           <folding>
             <element signature="e#15#24#0" expanded="true" />
           </folding>

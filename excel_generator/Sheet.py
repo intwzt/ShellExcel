@@ -32,19 +32,19 @@ class Sheet:
         self.main_origin = [self.main_origin[0] + num_of_follower + 4 + 2, self.main_origin[1]]
 
     def render(self):
-        self._cal_main_table_coordinate()
+        if self.table_type == RSM:
+            self._cal_main_table_coordinate()
+            main_table = MainTable(self.ws, self.main_origin[0], self.main_origin[1], RSM)
+            header = TableHeader(sheet_type[self.table_type]['header'])
+            main_table.assign_title(sheet_type[self.table_type]['title'][self.page][2])
+            main_table.assign_header(header)
+            main_table.assign_person(self.follower, owner=self.owner)
+            self.main_table = main_table
+            main_table.render()
 
-        main_table = MainTable(self.ws, self.main_origin[0], self.main_origin[1], RSM)
-        header = TableHeader(sheet_type[self.table_type]['header'])
-        main_table.assign_title(sheet_type[self.table_type]['title'][2])
-        main_table.assign_header(header)
-        main_table.assign_person(self.follower, owner=self.owner)
-        self.main_table = main_table
-        main_table.render()
-
-        attached_table = AttachedTable(main_table, self.origin[0], self.origin[1], RSM)
-        attached_table.assign_data(self.follower)
-        attached_table.assign_title(sheet_type[self.table_type]['title'][1])
-        self.attached_table = attached_table
-        attached_table.render()
+            attached_table = AttachedTable(main_table, self.origin[0], self.origin[1], RSM)
+            attached_table.assign_data(self.follower)
+            attached_table.assign_title(sheet_type[self.table_type]['title'][self.page][1])
+            self.attached_table = attached_table
+            attached_table.render()
 
