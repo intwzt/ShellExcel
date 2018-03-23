@@ -1,6 +1,7 @@
 # coding=utf-8
-from Style import Style
-from Common import bg_color, side_style, font_style, alignment
+from onepage.target.excel_generator.Style import Style
+
+from onepage.target.excel_generator.Common import bg_color, side_style, font_style, alignment
 
 # if you need add style for single gird, add it as need_merge cell
 common1_matrix = [
@@ -26,6 +27,9 @@ common1_matrix = [
     ['CRTO', 'Other'],
     ['Sum Total', None]
 ]
+
+common1_header_product = ['WT', 'Ultra', 'HX8', 'HX7', 'HX6', 'HX5', 'HX3', 'HX2', 'Other',
+                          'R6', 'R5', 'R4 Plus', 'R4', 'R3', 'R2', 'Gadus', 'Spirax', 'Other']
 
 common1_need_merge = [
     {'coordinate': [2, 0, 10, 0], 'style': Style(bg_color[4], al=alignment[5])},
@@ -53,6 +57,7 @@ common1_need_merge = [
     {'coordinate': [19, 1, 19, 1], 'style': Style(bg_color[4], al=alignment[1])}
 ]
 
-common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge}
+common_header1 = {'matrix': common1_matrix, 'merge': common1_need_merge, 'product': common1_header_product,
+                  'row': 21, 'col': 2, 'owner': 1, 'a_column': 7, 'owner_width': 3, 'follower_width': 6}
 
-header_index = {'RSM': common_header1, 'SD': common_header1}
+header_index = {'RSM': common_header1}

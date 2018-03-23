@@ -52,7 +52,7 @@ class Column:
     def set_column_value(self, source):
         source_len = len(source)
         if source_len != self.count:
-            print 'target column do not match source'
+            print ('target column do not match source')
             return
         for i in range(source_len):
             self.container[i].set_value(source[i])

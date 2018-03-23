@@ -7,10 +7,11 @@ from Common import column_last_row, thick_border
 from Cube import Cube
 from Style import Style
 from Tools import coordinate_transfer, style_range
+from template.SheetType import sheet_type
 
 
 class AttachedTable:
-    def __init__(self, main_table, ox, oy, title=None, data=None):
+    def __init__(self, main_table, ox, oy, table_type, title=None, data=None):
         # add title row
         ox += 1
         self.main_table = main_table
@@ -19,8 +20,9 @@ class AttachedTable:
         self.container = {}
         self.name = []
         self.data = data
-        self.ws = main_table.ws
+        self.ws = main_table.ws_main
         self.end_point = [ox, oy]
+        self.table_type = table_type
 
     def assign_data(self, data):
         self.data = data
@@ -84,7 +86,7 @@ class AttachedTable:
         for f in self.main_table.follower:
             if f.name == person_name:
                 return f.attached_column_name_mapper(header_name)
-        print 'error!'
+        print ('error!')
         return None
 
     def _set_data(self):
@@ -188,9 +190,10 @@ class AttachedTable:
             return self.container[attach_column_type[y]].container[x], None
 
     def _render_table_header(self):
+        col_num = sheet_type[self.table_type]['header']['a_column']
         self.main_table.write_cube_to_book(self.origin[0], self.origin[1],
                                            Cube(value='Name', style=Style(bg_color[4], font=font_style[2], al=alignment[1])))
-        for i in range(1, 7):
+        for i in range(1, col_num):
             self.main_table.write_cube_to_book(self.origin[0], self.origin[1] + i,
                                                Cube(value=attach_column_type[i - 1],
                                                     style=Style(bg_color[4], font=font_style[2], al=alignment[1])))

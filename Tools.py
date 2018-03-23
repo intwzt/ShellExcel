@@ -66,8 +66,3 @@ def as_text(value):
     elif type(value) is int:
         return str(value)
     return str(value.encode('utf-8'))
-
-
-if __name__ == '__main__':
-    for i in range(1, 26 * 26 + 100):
-        print i, decimal2letter(i)

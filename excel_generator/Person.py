@@ -1,6 +1,6 @@
 # coding=utf-8
-from Common import role, column_type, target_mapper, ref_mapper, column_last_row, formula_type
 from Column import Column
+from Common import role, column_type, target_mapper, ref_mapper, column_last_row
 
 
 class Person:
@@ -31,7 +31,7 @@ class Person:
 
     def set_column_value(self, num, target_value, ref_value, name=None):
         self.name = name
-        for k, v in target_value.iteritems():
+        for k, v in target_value.items():
             if k == target_mapper[2]:
                 column = Column(num, column_type[1], self.role, last_row=self._check_last_column(k), number_format=10)
             else:
@@ -41,7 +41,7 @@ class Person:
         if self.role == role[1]:
             return
         if self.role == role[2]:
-            for k, v in ref_value.iteritems():
+            for k, v in ref_value.items():
                 if k == ref_mapper[2]:
                     column = Column(num, column_type[2], self.role, last_row=self._check_last_column(k), number_format=10)
                 else:
@@ -71,5 +71,5 @@ class Person:
         elif col_name == 'Market Share %':
             return self.Market_Share
         else:
-            print 'error column name', col_name, 'for attached table'
+            print ('error column name', col_name, 'for attached table')
             return None

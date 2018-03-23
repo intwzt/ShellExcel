@@ -1,14 +1,15 @@
 # coding=utf-8
-from MainTable import MainTable
 from AttachedTable import AttachedTable
 from Common import role
+from MainTable import MainTable
 from Person import Person
-from SheetType import sheet_type
 from TableHeader import TableHeader
+from template.SheetType import sheet_type, RSM
 
 
 class Sheet:
-    def __init__(self, data, table_type, x=2, y=2):
+    def __init__(self, ws, data, table_type, x=3, y=2):
+        self.ws = ws
         self.origin = [x, y]
         self.main_origin = [x, y]
         self.owner = None
@@ -22,7 +23,7 @@ class Sheet:
             elif p['role'] == role[2]:
                 self.follower.append(Person(role[2], p))
             else:
-                print 'error role input'
+                print ('error role input')
                 pass
 
     def _cal_main_table_coordinate(self):
@@ -32,7 +33,7 @@ class Sheet:
     def render(self):
         self._cal_main_table_coordinate()
 
-        main_table = MainTable(self.main_origin[0], self.main_origin[1])
+        main_table = MainTable(self.ws, self.main_origin[0], self.main_origin[1], RSM)
         header = TableHeader(sheet_type[self.table_type]['header'])
         main_table.assign_title(sheet_type[self.table_type]['title'][2])
         main_table.assign_header(header)
@@ -40,11 +41,9 @@ class Sheet:
         self.main_table = main_table
         main_table.render()
 
-        attached_table = AttachedTable(main_table, self.origin[0], self.origin[1])
+        attached_table = AttachedTable(main_table, self.origin[0], self.origin[1], RSM)
         attached_table.assign_data(self.follower)
         attached_table.assign_title(sheet_type[self.table_type]['title'][1])
         self.attached_table = attached_table
         attached_table.render()
 
-    def save_sheet(self):
-        self.main_table.save_workbook()

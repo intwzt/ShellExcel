@@ -1,5 +1,4 @@
 # coding=utf-8
-from openpyxl import Workbook
 from openpyxl.styles import numbers
 
 from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, thick_border
@@ -10,7 +9,7 @@ from Tools import coordinate_transfer, style_range
 
 
 class MainTable:
-    def __init__(self, ox, oy):
+    def __init__(self, ws, ox, oy, table_type):
         # add title row
         ox += 1
         self.owner = None
@@ -19,18 +18,14 @@ class MainTable:
         self.origin = [ox, oy]
         self.table_body = [ox, oy]
         self.title = None
-
-        self.wb = Workbook()
-        self.ws = self.wb.active
+        self.table_type = table_type
         self.end_point = [ox, oy]
-
-        # remove GridLines
-        self.ws.sheet_view.showGridLines = False
+        self.ws_main = ws
 
     def _adjust_column_width(self):
-        for column_cells in self.ws.columns:
+        for column_cells in self.ws_main.columns:
             # length = max(len(as_text(cell.value)) for cell in column_cells)
-            self.ws.column_dimensions[column_cells[0].column].width = 12
+            self.ws_main.column_dimensions[column_cells[0].column].width = 12
 
     def _cal_end_point(self):
         body_len_x = 0
@@ -54,7 +49,7 @@ class MainTable:
     def _add_table_border(self):
         coordinate = coordinate_transfer(self.origin[0], self.origin[1]) + ':' + \
                      coordinate_transfer(self.end_point[0], self.end_point[1])
-        style_range(self.ws, coordinate, thick_border)
+        style_range(self.ws_main, coordinate, thick_border)
 
     def assign_header(self, header):
         self.header = header
@@ -93,10 +88,10 @@ class MainTable:
                 start_column = m['coordinate'][1] + self.origin[1]
                 end_row = m['coordinate'][2] + self.origin[0]
                 end_column = m['coordinate'][3] + self.origin[1]
-                self.ws.merge_cells(start_row=start_row,
-                                    start_column=start_column,
-                                    end_row=end_row,
-                                    end_column=end_column)
+                self.ws_main.merge_cells(start_row=start_row,
+                                         start_column=start_column,
+                                         end_row=end_row,
+                                         end_column=end_column)
                 # get style of cell need merged
                 current_style = m['style']
 
@@ -106,7 +101,7 @@ class MainTable:
                 # set border
                 coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row,
                                                                                                       end_column)
-                style_range(self.ws, coordinate,
+                style_range(self.ws_main, coordinate,
                             border=border_pattern[current_style.border],
                             fill=fill_pattern[current_style.fill],
                             font=font_pattern[current_style.font],
@@ -119,7 +114,7 @@ class MainTable:
                 self.follower.append(f)
 
     def _set_formula(self, x, y, formula):
-        self.ws[coordinate_transfer(x, y)] = formula
+        self.ws_main[coordinate_transfer(x, y)] = formula
 
     def _style_factory(self, c, cube):
         border = None if cube.style.border is None else border_pattern[cube.style.border]
@@ -136,7 +131,7 @@ class MainTable:
             c.number_format = numbers.builtin_format_code(cube.number_format)
 
     def write_cube_to_book(self, x, y, cube):
-        c = self.ws.cell(x, y, cube.value)
+        c = self.ws_main.cell(x, y, cube.value)
         if cube.formula is not None:
             self._set_formula(x, y, cube.formula)
         # write style
@@ -147,8 +142,8 @@ class MainTable:
     def print_info(self):
         self.owner.print_info()
 
-    def save_workbook(self):
-        self.wb.save('result.xlsx')
+    def save_workbook(self, filename):
+        self.wb.save(filename)
 
     def render(self):
         # render header
@@ -214,7 +209,7 @@ class MainTable:
                 for i in range(person_target_column_number, person_column_number):
                     self.write_cube_to_book(index_x + counter + inner_counter, index_y + i + f * person_column_number,
                                             Cube(bg_color[4], target_mapper[i - person_target_column_number],
-                                                  style=col_name_style))
+                                                 style=col_name_style))
 
                 inner_counter += 1
                 # write column data
@@ -287,10 +282,10 @@ class MainTable:
 
     def _merge_body_cell(self, end_column, end_row, start_column, start_row,
                          border, fill, font, al):
-        self.ws.merge_cells(start_row=start_row,
-                            start_column=start_column,
-                            end_row=end_row,
-                            end_column=end_column)
+        self.ws_main.merge_cells(start_row=start_row,
+                                 start_column=start_column,
+                                 end_row=end_row,
+                                 end_column=end_column)
         # set merge cells style
         coordinate = coordinate_transfer(start_row, start_column) + ':' + coordinate_transfer(end_row, end_column)
-        style_range(self.ws, coordinate, border, fill, font, al)
+        style_range(self.ws_main, coordinate, border, fill, font, al)
