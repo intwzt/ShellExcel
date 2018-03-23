@@ -18,14 +18,15 @@ class Sheet:
         self.main_table = None
         self.attached_table = None
         self.page = page
-        for p in data:
-            if p['role'] == role[1]:
-                self.owner = Person(role[1], p)
-            elif p['role'] == role[2]:
-                self.follower.append(Person(role[2], p))
-            else:
-                print ('error role input')
-                pass
+        if table_type == RSM:
+            for p in data:
+                if p['role'] == role[1]:
+                    self.owner = Person(role[1], p)
+                elif p['role'] == role[2]:
+                    self.follower.append(Person(role[2], p))
+                else:
+                    print ('error role input')
+                    pass
 
     def _cal_main_table_coordinate(self):
         num_of_follower = len(self.follower)
