@@ -49,7 +49,7 @@ def decimal2letter(x):
         while ex:
             tmp = ord(res[count])
             res[count] = chr(((tmp - 65 + 1) % 26) + 65)
-            ex = (tmp - 65 + 1) / 26
+            ex = (tmp - 65 + 1) // 26
             count += 1
             if count > len(res) - 1 and ex:
                 res.append('@')

@@ -8,7 +8,7 @@ from template.SheetType import sheet_type, RSM
 
 
 class Sheet:
-    def __init__(self, ws, data, table_type, x=3, y=2):
+    def __init__(self, ws, page, data, table_type, x=3, y=2):
         self.ws = ws
         self.origin = [x, y]
         self.main_origin = [x, y]
@@ -17,6 +17,7 @@ class Sheet:
         self.table_type = table_type
         self.main_table = None
         self.attached_table = None
+        self.page = page
         for p in data:
             if p['role'] == role[1]:
                 self.owner = Person(role[1], p)

@@ -3,7 +3,7 @@ import random
 
 from Common import role
 from excel_generator.SheetBook import SheetBook
-from template.SheetType import RSM
+from template.SheetType import RSM, sheet_type
 
 
 def get_random_array(num):
@@ -55,6 +55,8 @@ if __name__ == '__main__':
                      'ref_value': {'Ref UC3 $': mock_array, 'Ref UNP $': mock_array, 'Ref Portfolio %': mock_array},
                      'LE KL': 10, 'Market size KL': 10, 'Market Share': 10}
 
-    data = [owner_data, follow_data_1, follow_data_2, follow_data_3, follow_data_4]
+    data = {}
+    for i in range(1, len(sheet_type[RSM]['page'])):
+        data[sheet_type[RSM]['page'][i]] = [owner_data, follow_data_1, follow_data_2, follow_data_3, follow_data_4]
     book = SheetBook(RSM, 'test.xlsx', data)
     book.save_book()

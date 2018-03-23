@@ -1,9 +1,10 @@
 # coding=utf-8
-from onepage.target.excel_generator.Style import Style
 
-from onepage.target.excel_generator.Common import bg_color, side_style, font_style, alignment
 
 # if you need add style for single gird, add it as need_merge cell
+from excel_generator.Common import bg_color, alignment, side_style, font_style
+from excel_generator.Style import Style
+
 common1_matrix = [
     [None, None],
     [None, 'Product'],
