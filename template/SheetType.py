@@ -6,5 +6,5 @@ from template.SheetPageTemplate import page_index
 RSM = 'RSM'
 SGM = 'SGM'
 
-sheet_type = {RSM: {'header': header_index[RSM], 'title': title_index[RSM], 'page': page_index[RSM], 'main_page': 1},
+sheet_type = {RSM: {'header': header_index[RSM], 'title': title_index[RSM], 'page': page_index[RSM]},
               SGM: {'page': page_index[SGM]}, 'title': title_index[SGM]}
