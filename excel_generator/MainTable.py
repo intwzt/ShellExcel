@@ -1,11 +1,13 @@
 # coding=utf-8
 from openpyxl.styles import numbers
 
-from Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, thick_border
-from Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, alignment
 from Cube import Cube
 from Style import Style
 from Tools import coordinate_transfer, style_range
+from excel_generator.Common import bg_color, target_mapper, ref_mapper, formula_type, fill_pattern, \
+    thick_border
+from excel_generator.Common import border_pattern, alignment_pattern, font_pattern, side_style, font_style, \
+    alignment
 
 
 class MainTable:

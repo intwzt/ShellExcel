@@ -1,9 +1,9 @@
 # coding=utf-8
 from AttachedTable import AttachedTable
-from Common import role
 from MainTable import MainTable
 from Person import Person
 from TableHeader import TableHeader
+from excel_generator.Common import role
 from template.SheetType import sheet_type, RSM
 
 

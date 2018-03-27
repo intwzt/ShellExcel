@@ -23,3 +23,5 @@ class Cube:
 
     def set_number_format(self, number_format):
         self.number_format = number_format
+
+

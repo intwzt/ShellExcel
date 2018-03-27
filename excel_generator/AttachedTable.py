@@ -1,12 +1,13 @@
 # coding=utf-8
 
 from Column import Column
-from Common import bg_color, formula_type, attach_column_type, column_type, role, target_mapper, font_style, alignment, \
-    side_style
-from Common import column_last_row, thick_border
 from Cube import Cube
 from Style import Style
 from Tools import coordinate_transfer, style_range
+from excel_generator.Common import bg_color, formula_type, attach_column_type, column_type, role, \
+    target_mapper, font_style, alignment, \
+    side_style
+from excel_generator.Common import column_last_row, thick_border
 from template.SheetType import sheet_type
 
 

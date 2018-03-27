@@ -1,6 +1,5 @@
 # coding=utf-8
 from openpyxl.styles import Border
-import math
 
 
 def restructure_border(border, top=None, left=None, right=None, bottom=None):
@@ -66,3 +65,17 @@ def as_text(value):
     elif type(value) is int:
         return str(value)
     return str(value.encode('utf-8'))
+
+
+def divide_column(data_list):
+    res = []
+    tmp = {}
+    for i in range(len(data_list)):
+        tmp[i] = data_list[i]
+    sorted_tmp = sorted(tmp.items(), key=lambda item: item[1])
+    step = int(len(sorted_tmp) * 0.2)
+    count = step
+    while count < len(sorted_tmp):
+        res.append(data_list[sorted_tmp[count][0]])
+        count += step
+    return round(res[0], 3), round(res[1], 3), round(res[2], 3), round(res[3], 3)

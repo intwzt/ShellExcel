@@ -52,3 +52,5 @@ font_style = {1: 'normal', 2: 'bold', 3: 'table_title'}
 font_pattern = {font_style[1]: Font(b=False, name="Microsoft YaHei", color="000000", size=10),
                 font_style[2]: Font(b=True, name="Microsoft YaHei", color="000000", size=10),
                 font_style[3]: Font(b=True, name="Microsoft YaHei", color="000000", size=14)}
+
+number_format = {'percent': 10}

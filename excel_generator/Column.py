@@ -1,7 +1,7 @@
 # coding=utf-8
-from Common import bg_color, column_type, role, column_last_row, formula_type, side_style
 from Cube import Cube
 from Style import Style
+from excel_generator.Common import bg_color, column_type, role, column_last_row, formula_type, side_style
 
 
 class Column:

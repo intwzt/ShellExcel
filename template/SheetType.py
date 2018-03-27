@@ -7,4 +7,4 @@ RSM = 'RSM'
 SGM = 'SGM'
 
 sheet_type = {RSM: {'header': header_index[RSM], 'title': title_index[RSM], 'page': page_index[RSM]},
-              SGM: {'page': page_index[SGM]}, 'title': title_index[SGM]}
+              SGM: {'header': header_index[SGM], 'title': title_index[SGM], 'page': page_index[SGM]}}

@@ -1,8 +1,8 @@
 # coding=utf-8
 import random
 
-from Common import role
 from excel_generator.SheetBook import SheetBook
+from excel_generator.Common import role
 from template.SheetType import RSM, sheet_type
 
 

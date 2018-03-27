@@ -1,6 +1,6 @@
 # coding=utf-8
 from Column import Column
-from Common import role, column_type, target_mapper, ref_mapper, column_last_row
+from excel_generator.Common import role, column_type, target_mapper, ref_mapper, column_last_row
 
 
 class Person:

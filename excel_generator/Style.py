@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from Common import side_style, font_style, alignment
+from excel_generator.Common import side_style, font_style, alignment
 
 
 class Style:
